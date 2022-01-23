@@ -1,5 +1,6 @@
-# BulletTrain::OutgoingWebhooks::Core
-Short description and motivation.
+# Bullet Train Outgoing Webhooks Core
+
+Bullet Train Outgoing Webhooks Core allows users of your Rails application to subscribe and receive webhooks when activity takes place in your application. It was developed by [Andrew Culver](https://twitter.com/andrewculver) and extracted from [Bullet Train](https://bullettrain.co).
 
 ## Usage
 How to use my plugin.
