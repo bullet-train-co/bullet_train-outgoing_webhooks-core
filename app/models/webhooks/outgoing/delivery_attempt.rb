@@ -23,10 +23,18 @@ class Webhooks::Outgoing::DeliveryAttempt < ApplicationRecord
 
   def attempt
     uri = URI.parse(delivery.endpoint_url)
-    http = Net::HTTP.new(uri.host, uri.port)
+
+    unless allowed_uri?(uri)
+      self.response_code = 0
+      self.error_message = "URI is not allowed: " + uri
+      return false
+    end
+
+    http = Net::HTTP.new(resolve_ip_from_authoritative(uri.hostname.downcase), uri.port)
     http.use_ssl = true if uri.scheme == "https"
     request = Net::HTTP::Post.new(uri.path)
     request.add_field("Content-Type", "application/json")
+    request.add_field("Host", uri.host)
     request.body = delivery.event.payload.to_json
 
     begin
